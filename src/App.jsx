@@ -842,6 +842,14 @@ textarea::placeholder { color: #3b4a5a; }
 }
 `;
 
+function downloadText(filename, content) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([content], { type: "text/csv" }));
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
 // ═══════════════════════════════════════════
 // MAIN APP
 // ═══════════════════════════════════════════
@@ -1001,8 +1009,8 @@ export default function App() {
                   </span>
                 </div>
                 <h1 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(20px, 3.5vw, 32px)", fontWeight: 800, color: "#e6edf3", letterSpacing: "-0.5px" }}>
-                  Decommissioned IP&nbsp;
-                  <span style={{ color: "#f59e0b" }}>Rule Analyzer</span>
+                  Firewall Rule&nbsp;
+                  <span style={{ color: "#f59e0b" }}>Analyzer</span>
                 </h1>
               </div>
               <div style={{ display: "flex", gap: 8, paddingBottom: 4, flexWrap: "wrap" }}>
@@ -1047,7 +1055,7 @@ export default function App() {
                 <CardLabel>Upload Firewall Rules</CardLabel>
                 <DropZone
                   id="rules-file"
-                  label="Drop Palo Alto CSV export here"
+                  label="Drop Firewall Rules CSV export"
                   hint="or click to browse — .csv / .txt"
                   icon="📂"
                   file={rulesFile}
@@ -1074,9 +1082,14 @@ export default function App() {
                       {parseRulesCSV(rulesCsv).length.toLocaleString()} rules loaded
                     </span>
                   )}
-                  <button className="download-btn" onClick={() => setSampleModal({ title: "Firewall Rules — Sample CSV", content: TEMPLATE_RULES })}>
-                    ↓ View Sample CSV Format
-                  </button>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <button className="download-btn" onClick={() => setSampleModal({ title: "Firewall Rules — Sample CSV", content: TEMPLATE_RULES })}>
+                      ↓ View Sample CSV
+                    </button>
+                    <button className="download-btn" onClick={() => downloadText("sample_rules.csv", TEMPLATE_RULES)}>
+                      ⬇ Download Sample CSV
+                    </button>
+                  </div>
                 </div>
               </Card>
             </div>
@@ -1103,9 +1116,14 @@ export default function App() {
                   />
                 </div>
                 <div style={{ marginTop: 10, display: "flex", justifyContent: "flex-end" }}>
-                  <button className="download-btn" onClick={() => setSampleModal({ title: "Objects — Sample CSV", content: TEMPLATE_OBJECTS })}>
-                    ↓ View Sample CSV Format
-                  </button>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <button className="download-btn" onClick={() => setSampleModal({ title: "Objects — Sample CSV", content: TEMPLATE_OBJECTS })}>
+                      ↓ View Sample CSV
+                    </button>
+                    <button className="download-btn" onClick={() => downloadText("sample_objects.csv", TEMPLATE_OBJECTS)}>
+                      ⬇ Download Sample CSV
+                    </button>
+                  </div>
                 </div>
               </Card>
               <Card accentColor="#60a5fa">
@@ -1154,9 +1172,14 @@ export default function App() {
                   />
                 </div>
                 <div style={{ marginTop: 10, display: "flex", justifyContent: "flex-end" }}>
-                  <button className="download-btn" onClick={() => setSampleModal({ title: "Groups — Sample CSV", content: TEMPLATE_GROUPS })}>
-                    ↓ View Sample CSV Format
-                  </button>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <button className="download-btn" onClick={() => setSampleModal({ title: "Groups — Sample CSV", content: TEMPLATE_GROUPS })}>
+                      ↓ View Sample CSV
+                    </button>
+                    <button className="download-btn" onClick={() => downloadText("sample_groups.csv", TEMPLATE_GROUPS)}>
+                      ⬇ Download Sample CSV
+                    </button>
+                  </div>
                 </div>
               </Card>
               <Card accentColor="#34d399">
@@ -1202,9 +1225,14 @@ export default function App() {
                   onFile={handleFile(setDecommText, setDecommFile)}
                 />
                 <div style={{ marginTop: 10, display: "flex", justifyContent: "flex-end" }}>
-                  <button className="download-btn" onClick={() => setSampleModal({ title: "Decommissioned IPs — Sample Format", content: TEMPLATE_DECOMM })}>
-                    ↓ View Sample Format
-                  </button>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <button className="download-btn" onClick={() => setSampleModal({ title: "Decommissioned IPs — Sample Format", content: TEMPLATE_DECOMM })}>
+                      ↓ View Sample Format
+                    </button>
+                    <button className="download-btn" onClick={() => downloadText("sample_decomm_ips.txt", TEMPLATE_DECOMM)}>
+                      ⬇ Download Sample
+                    </button>
+                  </div>
                 </div>
               </Card>
               <Card>
